@@ -1,0 +1,40 @@
+{% extends "base.html.twig" %}
+
+{%  block title %} Investment list {% endblock %}
+
+{% block body %}
+
+    {% if not user.canInvest %}
+        <div class="alert alert-warning">Sorry, you can not make more investments.</div>
+    {% endif %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Loan</th>
+            <th>Total amount</th>
+            <th>Available for investment</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for loan in pagination %}
+            <tr>
+                <td>{{ loan.title|e }}</td>
+                <td>{{ loan.amount|e }}</td>
+                <td>{{ loan.availableForInvestments|e }}</td>
+                <td>
+                    <a class="btn btn-primary {% if not loan.canBeInvested or not user.canInvest %} disabled {% endif %}"
+                       href="{{ loan.url }}">
+                        Invest
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+
+        </tbody>
+    </table>
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

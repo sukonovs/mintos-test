@@ -1,0 +1,45 @@
+{% extends "base.html.twig" %}
+
+{% block title %} Profile for investor {{ user.userName|e }} {% endblock %}
+
+{% block body %}
+
+    <div class="loan-info">
+        <div class="row">
+            User name: {{ user.userName|e }}
+        </div>
+
+        <div class="row">
+            Available for investments: {{ user.availableForInvestments|e }}
+        </div>
+    </div>
+
+    {% if not user.canInvest %}
+        <div class="alert alert-warning">Sorry, you can not make more investments.</div>
+    {% endif %}
+
+    {% if investments is empty %}
+        <div class="alert alert-info">No investments made by you.</div>
+    {% else %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Loan</th>
+            <th>Amount invested</th>
+            <th>Investment date</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for investment in investments %}
+            <tr>
+                <td>{{ investment.loan.title|e }}</td>
+                <td>{{ investment.amount|e }}</td>
+                <td>{{ investment.date|date('Y-m-d') }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+{% endblock %}

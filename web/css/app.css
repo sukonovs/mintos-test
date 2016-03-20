@@ -1,0 +1,7 @@
+body {
+    padding-top: 50px;
+}
+
+table, form, .alert, .loan-info {
+    margin: 40px 15px;
+}

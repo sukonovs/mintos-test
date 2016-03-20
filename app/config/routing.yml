@@ -1,3 +1,33 @@
-app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+loans_index:
+    path: /
+    defaults:  { _controller: AppBundle:Loans:index }
+    methods: [GET]
+
+loans_edit:
+    path: loans/edit/{id}
+    defaults: { _controller: AppBundle:Loans:edit }
+    methods: [GET]
+
+loans_update:
+    path: loans/update/{id}
+    defaults: { _controller: AppBundle:Loans:update }
+    methods: [POST, PUT]
+
+fos_user_security_login:
+    path:      /login
+    defaults:  { _controller: AppBundle:Security:login }
+    methods:  [GET, POST]
+
+fos_user_security_check:
+    path:      /login_check
+    defaults:  { _controller: FOSUserBundle:Security:check }
+    methods:  [POST]
+
+fos_user_security_logout:
+    path:      /logout
+    defaults:  { _controller: FOSUserBundle:Security:logout }
+    methods:  [GET]
+
+investor_show:
+    path: /profile
+    defaults: { _controller: AppBundle:Investor:show }

@@ -1,0 +1,38 @@
+{% extends "base.html.twig" %}
+
+{%  block title %} Invest in {{ loan.title|e }} {% endblock %}
+
+{% block body %}
+
+    <div class="loan-info">
+        <div class="row">
+            Loan: {{ loan.title|e }}
+        </div>
+
+        <div class="row">
+            Total amount: {{ loan.amount|e }}
+        </div>
+
+        <div class="row">
+            Available for investments: {{ loan.availableForInvestments|e }}
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+
+    <div class="form-group {% if not form.vars.valid %} has-feedback has-error {% endif %}">
+        {{ form_label(form.invest) }}
+        {{ form_widget(form.invest) }}
+        {% if not form.vars.valid %}
+            <i class="form-control-feedback glyphicon glyphicon-remove"></i>
+            <small class="help-block">{{ form_errors(form.invest) }}</small>
+        {% endif %}
+    </div>
+
+    {{ form_widget(form.save) }}
+
+    {{ form_end(form) }}
+
+    {{ form_end(form) }}
+
+{% endblock %}

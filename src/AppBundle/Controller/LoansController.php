@@ -44,6 +44,10 @@ class LoansController extends Controller
     {
         $user = $this->get('security.token_storage')->getToken()->getUser();
         $loan = $this->getDoctrine()->getManager()->getRepository('AppBundle:Loan')->find($id);
+        
+        $availableForInvestment = $loan->getAvailableForInvestments() < $user->getAvailableForInvestments() ? 
+            $loan->getAvailableForInvestments() : 
+            $user->getAvailableForInvestments();
 
         if (!$user->canInvest() || !$loan->canBeInvested()) {
 
@@ -53,7 +57,7 @@ class LoansController extends Controller
         $form = $this->createForm(InvestType::class, null, [
             'action' => $this->generateUrl('loans_update', ['id' => $loan->getId()]),
             'method' => 'PUT',
-            'available_for_investment' => $loan->getAvailableForInvestments()
+            'available_for_investment' => $availableForInvestment
         ])->createView();
 
         return $this->render('loans/edit.html.twig',
@@ -81,11 +85,15 @@ class LoansController extends Controller
 
             return $this->redirectToRoute('loans_index');
         }
+        
+        $availableForInvestment = $loan->getAvailableForInvestments() < $user->getAvailableForInvestments() ? 
+            $loan->getAvailableForInvestments() : 
+            $user->getAvailableForInvestments();
 
         $form = $this->createForm(InvestType::class, null, [
             'action' => $this->generateUrl('loans_update', ['id' => $loan->getId()]),
             'method' => 'PUT',
-            'available_for_investment' => $loan->getAvailableForInvestments()
+            'available_for_investment' => $availableForInvestment
         ]);
 
         $form->handleRequest($request);
